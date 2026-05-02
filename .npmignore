@@ -1,0 +1,15 @@
+src/
+test/
+examples/
+docs/
+claude-code/
+.github/
+.npmrc
+.gitignore
+.eslintrc*
+.prettier*
+eslint.config.*
+tsconfig.json
+tsup.config.ts
+*.tsbuildinfo
+coverage/
