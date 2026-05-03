@@ -53,9 +53,13 @@ jobs:
           set -e
           # User-facing identifiers we must never ship.
           FORBIDDEN_BRANDS='Arc|UAIIP|getai\.id|deeprisk|DeepIDV|Deep IDV|Deep ID V|deepsign|Dallas|Toronto'
-          # Look in src + README + CHANGELOG. dist is a build artifact;
-          # if the source is clean, dist is clean.
-          if grep -REn "$FORBIDDEN_BRANDS" src README.md CHANGELOG.md examples docs ; then
+          # Scope: every file that ends up in the published npm
+          # tarball (per .npmignore: src/, README, CHANGELOG, plus
+          # examples which are docs-only but readable on GitHub).
+          # `docs/` is excluded from npm pack and may legitimately
+          # mention forbidden terms in handoffs that explicitly
+          # describe the brand-check rule itself.
+          if grep -REn "$FORBIDDEN_BRANDS" src README.md CHANGELOG.md examples ; then
             echo "::error ::Forbidden brand reference found"
             exit 1
           fi
