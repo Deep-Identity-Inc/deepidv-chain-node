@@ -32,10 +32,7 @@ function streamFromChunks(chunks: string[]): ReadableStream<Uint8Array> {
   });
 }
 
-function fakeFetchSse(
-  chunks: string[],
-  status = 200,
-): typeof fetch {
+function fakeFetchSse(chunks: string[], status = 200): typeof fetch {
   let served = false;
   return (async () => {
     if (served) {
@@ -132,10 +129,7 @@ test("sse: drops malformed frame and continues", async () => {
   });
   const it = sseIterator({
     url: "http://x.test/v1/stream",
-    fetch: fakeFetchSse([
-      `data: not-valid-json\n\n` +
-        `data: ${ok}\n\n`,
-    ]),
+    fetch: fakeFetchSse([`data: not-valid-json\n\n` + `data: ${ok}\n\n`]),
     signal: ctrl.signal,
   });
   const events = await collect(it, 1, ctrl);
@@ -156,9 +150,7 @@ test("sse: ignores comment lines and blank lines between frames", async () => {
   });
   const it = sseIterator({
     url: "http://x.test/v1/stream",
-    fetch: fakeFetchSse([
-      `: keepalive\n\n: another\n\ndata: ${payload}\n\n`,
-    ]),
+    fetch: fakeFetchSse([`: keepalive\n\n: another\n\ndata: ${payload}\n\n`]),
     signal: ctrl.signal,
   });
   const events = await collect(it, 1, ctrl);

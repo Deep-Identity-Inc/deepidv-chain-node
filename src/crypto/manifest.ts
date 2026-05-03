@@ -42,9 +42,7 @@ const SEPARATOR = "  "; // exactly two spaces — sha256sum convention
  * or if any `path` contains a literal newline. Callers should
  * validate inputs upstream; this is defense-in-depth.
  */
-export function serializeManifest(
-  entries: readonly ManifestEntry[],
-): string {
+export function serializeManifest(entries: readonly ManifestEntry[]): string {
   const sorted = [...entries].sort((a, b) =>
     a.path < b.path ? -1 : a.path > b.path ? 1 : 0,
   );
@@ -103,31 +101,22 @@ export function parseManifest(text: string): ManifestEntry[] {
       throw new Error(`manifest: short line at line ${i + 1}`);
     }
     const sha256 = line.slice(0, SHA256_HEX_LEN);
-    const sep = line.slice(
-      SHA256_HEX_LEN,
-      SHA256_HEX_LEN + SEPARATOR.length,
-    );
+    const sep = line.slice(SHA256_HEX_LEN, SHA256_HEX_LEN + SEPARATOR.length);
     const path = line.slice(SHA256_HEX_LEN + SEPARATOR.length);
     if (!isValidSha256Hex(sha256)) {
       throw new Error(`manifest: invalid sha256 at line ${i + 1}`);
     }
     if (sep !== SEPARATOR) {
-      throw new Error(
-        `manifest: missing two-space separator at line ${i + 1}`,
-      );
+      throw new Error(`manifest: missing two-space separator at line ${i + 1}`);
     }
     if (path.length === 0) {
       throw new Error(`manifest: empty path at line ${i + 1}`);
     }
     if (path[0] === " " || path[0] === "\t") {
-      throw new Error(
-        `manifest: path begins with whitespace at line ${i + 1}`,
-      );
+      throw new Error(`manifest: path begins with whitespace at line ${i + 1}`);
     }
     if (seen.has(path)) {
-      throw new Error(
-        `manifest: duplicate path at line ${i + 1}: ${path}`,
-      );
+      throw new Error(`manifest: duplicate path at line ${i + 1}: ${path}`);
     }
     seen.add(path);
     out.push({ path, sha256 });

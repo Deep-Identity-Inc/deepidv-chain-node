@@ -11,11 +11,7 @@
  * that would lock down test bundles to a single envelope shape.
  */
 
-import {
-  generateKeyPairSync,
-  createSign,
-  type KeyObject,
-} from "node:crypto";
+import { generateKeyPairSync, createSign, type KeyObject } from "node:crypto";
 
 import { jcs } from "../../src/crypto/jcs.js";
 import { sha256Hex } from "../../src/crypto/hash.js";

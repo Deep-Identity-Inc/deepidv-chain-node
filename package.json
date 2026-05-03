@@ -44,8 +44,8 @@
     "clean": "rm -rf dist coverage",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"examples/**/*.ts\"",
-    "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\" \"examples/**/*.ts\"",
+    "format": "prettier --write --no-error-on-unmatched-pattern \"src/**/*.ts\" \"test/**/*.ts\" \"examples/**/*.ts\"",
+    "format:check": "prettier --check --no-error-on-unmatched-pattern \"src/**/*.ts\" \"test/**/*.ts\" \"examples/**/*.ts\"",
     "test": "tsc --noEmit && node --import tsx --test \"test/**/*.spec.ts\"",
     "test:integration": "DEEPIDV_INTEGRATION=1 node --import tsx --test \"test/**/*.integration.spec.ts\"",
     "prepublishOnly": "npm run clean && npm run typecheck && npm run test && npm run build"

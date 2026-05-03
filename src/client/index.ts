@@ -232,10 +232,7 @@ export class DeepidvChainClient {
    *  Internal request plumbing
    * ------------------------------------------------------------ */
 
-  private async requestJson<T>(
-    path: string,
-    opts: RequestOptions,
-  ): Promise<T> {
+  private async requestJson<T>(path: string, opts: RequestOptions): Promise<T> {
     const res = await this.rawRequest(path, {
       ...opts,
       headers: { Accept: "application/json" },
@@ -306,10 +303,7 @@ export class DeepidvChainClient {
           rlCtx,
         );
       }
-      throw new ErrorClass(
-        truncateBody(body) || `HTTP ${res.status}`,
-        ctx,
-      );
+      throw new ErrorClass(truncateBody(body) || `HTTP ${res.status}`, ctx);
     }
     return res;
   }
@@ -339,11 +333,9 @@ function combineSignals(
     ctrl.abort(sig.reason);
   };
   caller.addEventListener("abort", () => onAbort(caller), { once: true });
-  timeoutSignal.addEventListener(
-    "abort",
-    () => onAbort(timeoutSignal),
-    { once: true },
-  );
+  timeoutSignal.addEventListener("abort", () => onAbort(timeoutSignal), {
+    once: true,
+  });
   return ctrl.signal;
 }
 

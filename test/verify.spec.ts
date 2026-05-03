@@ -74,9 +74,7 @@ test("verify: tampered audit_path → fails at merkle_inclusion", async () => {
   const merkleText = new TextDecoder().decode(files[BUNDLE_FILES.MERKLE]);
   const merkle = JSON.parse(merkleText) as { audit_path: string[] };
   merkle.audit_path = ["a".repeat(64)];
-  files[BUNDLE_FILES.MERKLE] = new TextEncoder().encode(
-    JSON.stringify(merkle),
-  );
+  files[BUNDLE_FILES.MERKLE] = new TextEncoder().encode(JSON.stringify(merkle));
   const result = await verifyBundle(files);
   assert.equal(result.ok, false);
   assert.match(result.reason ?? "", /merkle_inclusion/);
@@ -107,10 +105,7 @@ test("verify: onchain.json with mismatched root → fails at onchain_anchor", as
 test("verify: missing required file throws", async () => {
   const { files } = buildBundle();
   delete files[BUNDLE_FILES.ENVELOPE];
-  await assert.rejects(
-    () => verifyBundle(files),
-    /missing required file/,
-  );
+  await assert.rejects(() => verifyBundle(files), /missing required file/);
 });
 
 test("verify: round-trip through unzipBundle from a built zip", async () => {
@@ -118,10 +113,12 @@ test("verify: round-trip through unzipBundle from a built zip", async () => {
   const zipped = buildStoredZip(files);
   const unzipped = unzipBundle(zipped);
   assert.ok(unzipped.files[BUNDLE_FILES.ENVELOPE]);
-  const result = await verifyBundle(zipped.buffer.slice(
-    zipped.byteOffset,
-    zipped.byteOffset + zipped.byteLength,
-  ) as ArrayBuffer);
+  const result = await verifyBundle(
+    zipped.buffer.slice(
+      zipped.byteOffset,
+      zipped.byteOffset + zipped.byteLength,
+    ) as ArrayBuffer,
+  );
   assert.equal(result.ok, true);
 });
 

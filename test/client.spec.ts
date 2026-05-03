@@ -21,9 +21,12 @@ import {
 
 function fakeFetch(map: Record<string, () => Response>): typeof fetch {
   const f: typeof fetch = async (input) => {
-    const url = typeof input === "string" ? input : input instanceof URL
-      ? input.toString()
-      : input.url;
+    const url =
+      typeof input === "string"
+        ? input
+        : input instanceof URL
+          ? input.toString()
+          : input.url;
     const handler = map[url];
     if (!handler) {
       throw new Error(`fakeFetch: no handler for ${url}`);
@@ -37,12 +40,11 @@ test("client: getAttestation hits /v1/attestation/:id", async () => {
   const client = createClient({
     apiUrl: "https://x.test",
     fetch: fakeFetch({
-      "https://x.test/v1/attestation/attest_01":
-        () =>
-          new Response(JSON.stringify({ id: "attest_01" }), {
-            status: 200,
-            headers: { "content-type": "application/json" },
-          }),
+      "https://x.test/v1/attestation/attest_01": () =>
+        new Response(JSON.stringify({ id: "attest_01" }), {
+          status: 200,
+          headers: { "content-type": "application/json" },
+        }),
     }),
   });
   const a = await client.getAttestation("attest_01");
@@ -54,11 +56,12 @@ test("client: listRegistry encodes filters into query string", async () => {
   const client = createClient({
     apiUrl: "https://x.test",
     fetch: ((input: Parameters<typeof fetch>[0]) => {
-      seenUrl = typeof input === "string"
-        ? input
-        : input instanceof URL
-          ? input.toString()
-          : (input as Request).url;
+      seenUrl =
+        typeof input === "string"
+          ? input
+          : input instanceof URL
+            ? input.toString()
+            : (input as Request).url;
       return Promise.resolve(
         new Response(JSON.stringify({ items: [], nextCursor: null }), {
           status: 200,
@@ -78,12 +81,11 @@ test("client: 401 → DeepidvAuthError", async () => {
   const client = createClient({
     apiUrl: "https://x.test",
     fetch: fakeFetch({
-      "https://x.test/v1/issuer/iss_x":
-        () =>
-          new Response("nope", {
-            status: 401,
-            headers: { "x-request-id": "req-123" },
-          }),
+      "https://x.test/v1/issuer/iss_x": () =>
+        new Response("nope", {
+          status: 401,
+          headers: { "x-request-id": "req-123" },
+        }),
     }),
   });
   await assert.rejects(
@@ -102,8 +104,8 @@ test("client: 404 → DeepidvNotFoundError", async () => {
   const client = createClient({
     apiUrl: "https://x.test",
     fetch: fakeFetch({
-      "https://x.test/v1/attestation/missing":
-        () => new Response("", { status: 404 }),
+      "https://x.test/v1/attestation/missing": () =>
+        new Response("", { status: 404 }),
     }),
   });
   await assert.rejects(
@@ -116,12 +118,11 @@ test("client: 429 includes retryAfterSeconds", async () => {
   const client = createClient({
     apiUrl: "https://x.test",
     fetch: fakeFetch({
-      "https://x.test/v1/log":
-        () =>
-          new Response("slow down", {
-            status: 429,
-            headers: { "retry-after": "12" },
-          }),
+      "https://x.test/v1/log": () =>
+        new Response("slow down", {
+          status: 429,
+          headers: { "retry-after": "12" },
+        }),
     }),
   });
   await assert.rejects(
@@ -138,8 +139,8 @@ test("client: 5xx → DeepidvServerError", async () => {
   const client = createClient({
     apiUrl: "https://x.test",
     fetch: fakeFetch({
-      "https://x.test/v1/segment/0":
-        () => new Response("boom", { status: 503 }),
+      "https://x.test/v1/segment/0": () =>
+        new Response("boom", { status: 503 }),
     }),
   });
   await assert.rejects(
@@ -153,12 +154,11 @@ test("client: downloadBundle returns ArrayBuffer", async () => {
   const client = createClient({
     apiUrl: "https://x.test",
     fetch: fakeFetch({
-      "https://x.test/v1/bundle/attest_xy":
-        () =>
-          new Response(bytes, {
-            status: 200,
-            headers: { "content-type": "application/octet-stream" },
-          }),
+      "https://x.test/v1/bundle/attest_xy": () =>
+        new Response(bytes, {
+          status: 200,
+          headers: { "content-type": "application/octet-stream" },
+        }),
     }),
   });
   const ab = await client.downloadBundle("attest_xy");
@@ -209,12 +209,11 @@ test("client: invalid JSON throws DeepidvApiError", async () => {
   const client = createClient({
     apiUrl: "https://x.test",
     fetch: fakeFetch({
-      "https://x.test/v1/log":
-        () =>
-          new Response("not json", {
-            status: 200,
-            headers: { "content-type": "application/json" },
-          }),
+      "https://x.test/v1/log": () =>
+        new Response("not json", {
+          status: 200,
+          headers: { "content-type": "application/json" },
+        }),
     }),
   });
   await assert.rejects(

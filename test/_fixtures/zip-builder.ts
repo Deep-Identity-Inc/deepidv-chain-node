@@ -13,9 +13,7 @@ const ZIP_LFH_SIG = 0x04034b50;
 const ZIP_CDFH_SIG = 0x02014b50;
 const ZIP_EOCD_SIG = 0x06054b50;
 
-export function buildStoredZip(
-  files: Record<string, Uint8Array>,
-): Uint8Array {
+export function buildStoredZip(files: Record<string, Uint8Array>): Uint8Array {
   const enc = new TextEncoder();
   const localChunks: Uint8Array[] = [];
   const cdChunks: Uint8Array[] = [];

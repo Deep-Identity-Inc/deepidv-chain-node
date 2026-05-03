@@ -100,9 +100,7 @@ export class DeepidvNetworkError extends DeepidvApiError {
  * before throwing. Public so consumers can plug in their own retry
  * policy: `if (mapStatusToError(res.status) === DeepidvRateLimitError) ...`
  */
-export function statusToErrorClass(
-  status: number,
-): typeof DeepidvApiError {
+export function statusToErrorClass(status: number): typeof DeepidvApiError {
   if (status === 401 || status === 403) return DeepidvAuthError;
   if (status === 404) return DeepidvNotFoundError;
   if (status === 429) return DeepidvRateLimitError;

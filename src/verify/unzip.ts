@@ -102,9 +102,7 @@ export function unzipBundle(input: ArrayBuffer | Uint8Array): UnzipResult {
       throw new Error(`unzip: backslash in filename: ${JSON.stringify(name)}`);
     }
     if (name.startsWith("/")) {
-      throw new Error(
-        `unzip: absolute path filename: ${JSON.stringify(name)}`,
-      );
+      throw new Error(`unzip: absolute path filename: ${JSON.stringify(name)}`);
     }
     for (const segment of name.split("/")) {
       if (segment === "..") {
@@ -134,9 +132,7 @@ export function unzipBundle(input: ArrayBuffer | Uint8Array): UnzipResult {
     const dataStart = lfhOffset + 30 + lfhNameLen + lfhExtraLen;
     const dataEnd = dataStart + compressedSize;
     if (dataEnd > buf.byteLength) {
-      throw new Error(
-        `unzip: entry "${name}" extends past end of archive`,
-      );
+      throw new Error(`unzip: entry "${name}" extends past end of archive`);
     }
 
     files[name] = buf.subarray(dataStart, dataEnd);

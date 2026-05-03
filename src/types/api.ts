@@ -22,7 +22,6 @@
 
 import type { RecordType } from "./envelope.js";
 import type { Envelope } from "./envelope.js";
-import type { STH } from "./sth.js";
 
 /**
  * Network short name for the on-chain anchor.

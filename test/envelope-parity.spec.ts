@@ -84,9 +84,7 @@ test("parity: jcs() output matches sortedStringify reference", () => {
 
 test("parity: SHA-256(jcs) equals SHA-256(sortedStringify)", () => {
   const j = createHash("sha256").update(jcs(FIXTURE)).digest("hex");
-  const r = createHash("sha256")
-    .update(sortedStringify(FIXTURE))
-    .digest("hex");
+  const r = createHash("sha256").update(sortedStringify(FIXTURE)).digest("hex");
   assert.equal(j, r);
 });
 

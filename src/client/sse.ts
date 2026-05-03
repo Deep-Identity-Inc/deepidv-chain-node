@@ -78,7 +78,7 @@ export async function* sseIterator(
       const init: RequestInit = { method: "GET", headers };
       if (opts.signal) init.signal = opts.signal;
       response = await opts.fetch(opts.url, init);
-    } catch (err) {
+    } catch {
       if (opts.signal?.aborted) return;
       await sleep(jitter(delay), opts.signal);
       delay = Math.min(delay * 2, max);
@@ -103,10 +103,7 @@ export async function* sseIterator(
     delay = initial;
 
     try {
-      for await (const ev of parseEventStream(
-        response.body,
-        opts.signal,
-      )) {
+      for await (const ev of parseEventStream(response.body, opts.signal)) {
         if (ev.id) lastEventId = ev.id;
         if (ev.data === undefined || ev.data === "") continue;
         try {
@@ -119,7 +116,7 @@ export async function* sseIterator(
           continue;
         }
       }
-    } catch (err) {
+    } catch {
       if (opts.signal?.aborted) return;
       // Underlying body iteration threw — fall through to reconnect.
       await sleep(jitter(delay), opts.signal);
@@ -188,8 +185,7 @@ function parseFrame(text: string): ParsedFrame | null {
     if (rawLine === "" || rawLine.startsWith(":")) continue;
     const colonIdx = rawLine.indexOf(":");
     const field = colonIdx === -1 ? rawLine : rawLine.slice(0, colonIdx);
-    let value =
-      colonIdx === -1 ? "" : rawLine.slice(colonIdx + 1);
+    let value = colonIdx === -1 ? "" : rawLine.slice(colonIdx + 1);
     if (value.startsWith(" ")) value = value.slice(1);
     if (field === "data") dataLines.push(value);
     else if (field === "id") out.id = value;
@@ -197,7 +193,11 @@ function parseFrame(text: string): ParsedFrame | null {
     // retry/everything else: ignored — the SDK manages backoff.
   }
   if (dataLines.length > 0) out.data = dataLines.join("\n");
-  if (out.data === undefined && out.id === undefined && out.event === undefined) {
+  if (
+    out.data === undefined &&
+    out.id === undefined &&
+    out.event === undefined
+  ) {
     return null;
   }
   return out;

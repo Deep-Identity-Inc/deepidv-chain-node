@@ -125,10 +125,7 @@ test("merkle: verifyInclusion rejects a wrong leaf index", () => {
   const leaves = makeLeaves(8);
   const root = merkleRoot(leaves);
   const path = inclusionProof(leaves, 3);
-  assert.equal(
-    verifyInclusion(leaves[3] as Buffer, 4, 8, path, root),
-    false,
-  );
+  assert.equal(verifyInclusion(leaves[3] as Buffer, 4, 8, path, root), false);
 });
 
 test("merkle: verifyInclusion rejects an out-of-range index", () => {
@@ -153,10 +150,7 @@ test("merkle: verifyConsistency m===n requires empty proof + equal roots", () =>
   const leaves = makeLeaves(8);
   const root = merkleRoot(leaves);
   assert.equal(verifyConsistency(root, root, 8, 8, []), true);
-  assert.equal(
-    verifyConsistency(root, root, 8, 8, [Buffer.alloc(32)]),
-    false,
-  );
+  assert.equal(verifyConsistency(root, root, 8, 8, [Buffer.alloc(32)]), false);
 });
 
 test("merkle: verifyConsistency m===0 requires empty proof", () => {

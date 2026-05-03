@@ -79,17 +79,13 @@ test("manifest: serialize rejects invalid sha256", () => {
 
 test("manifest: serialize rejects path with newline", () => {
   assert.throws(
-    () =>
-      serializeManifest([
-        { path: "a\nb", sha256: "0".repeat(64) },
-      ]),
+    () => serializeManifest([{ path: "a\nb", sha256: "0".repeat(64) }]),
     /newline/,
   );
 });
 
 test("manifest: parse rejects duplicate paths", () => {
-  const text =
-    "0".repeat(64) + "  a.txt\n" + "1".repeat(64) + "  a.txt\n";
+  const text = "0".repeat(64) + "  a.txt\n" + "1".repeat(64) + "  a.txt\n";
   assert.throws(() => parseManifest(text), /duplicate/);
 });
 

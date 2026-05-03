@@ -63,10 +63,7 @@ import { jcs } from "../crypto/jcs.js";
 import { sha256Hex } from "../crypto/hash.js";
 import { leafHash, verifyInclusion, unhex } from "../crypto/merkle.js";
 import { BUNDLE_FILES } from "../types/bundle.js";
-import type {
-  MerkleProofJson,
-  OnchainProofJson,
-} from "../types/bundle.js";
+import type { MerkleProofJson, OnchainProofJson } from "../types/bundle.js";
 import type { STH } from "../types/sth.js";
 import { unzipBundle } from "./unzip.js";
 
@@ -298,10 +295,7 @@ export async function verifyBundle(
   const v5 = createVerify("SHA256");
   v5.update(sthPreimageBytes);
   v5.end();
-  const masterOk = v5.verify(
-    masterKey,
-    Buffer.from(masterSigB64, "base64"),
-  );
+  const masterOk = v5.verify(masterKey, Buffer.from(masterSigB64, "base64"));
   if (!masterOk) {
     return fail(
       checks,
