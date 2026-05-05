@@ -1,0 +1,26 @@
+{
+  "v": 1,
+  "t": "IDV",
+  "id": "attest_01JAXK9F7W0000000000000001",
+  "tenant": "t_parity_test",
+  "issuer": "iss_parity_test_prod",
+  "subject": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "claim_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+  "labels": [
+    {
+      "name": "Age >= 18",
+      "commit": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "public_value": true
+    },
+    {
+      "name": "Country",
+      "commit": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    }
+  ],
+  "rts": {
+    "digicert": "b64:MIIK_digicert_placeholder_token_for_parity_fixture",
+    "sectigo": "b64:MIIJ_sectigo_placeholder_token_for_parity_fixture"
+  },
+  "minted_at": "2026-04-22T00:00:00Z",
+  "correlation_id": "evt_parity_test_000001"
+}

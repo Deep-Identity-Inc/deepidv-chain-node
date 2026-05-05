@@ -1,0 +1,85 @@
+name: publish
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Version tag to publish (e.g. v1.0.0)"
+        required: true
+
+permissions:
+  contents: read
+  id-token: write # required for npm provenance via OIDC
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: publish to npm
+    runs-on: ubuntu-latest
+    environment: npm-publish
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.tag || github.ref }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          registry-url: "https://registry.npmjs.org"
+
+      - name: install
+        run: npm ci --no-audit --no-fund
+
+      - name: verify the tag matches package.json version
+        run: |
+          set -e
+          tag="${{ github.event.inputs.tag || github.ref_name }}"
+          pkg=$(node -p "require('./package.json').version")
+          want="${tag#v}"
+          if [ "$pkg" != "$want" ]; then
+            echo "::error ::tag $tag does not match package.json version $pkg"
+            exit 1
+          fi
+          echo "ok: tag=$tag pkg=$pkg"
+
+      - name: typecheck
+        run: npm run typecheck
+
+      - name: lint
+        run: npm run lint
+
+      - name: test
+        run: npm test
+
+      - name: build
+        run: npm run build
+
+      - name: pack and inspect for forbidden brand refs
+        run: |
+          set -e
+          npm pack --dry-run > /dev/null
+          tarball=$(npm pack 2>/dev/null | tail -1)
+          mkdir -p .tarball-inspect
+          tar -xzf "$tarball" -C .tarball-inspect
+          # The packed tarball must not contain any forbidden brand
+          # tokens — same list as ci.yml. If a future contributor
+          # regresses this, the publish workflow halts before npm
+          # publish runs.
+          FORBIDDEN_BRANDS='Arc|UAIIP|getai\.id|deeprisk|DeepIDV|Deep IDV|Deep ID V|deepsign|Dallas|Toronto'
+          if grep -REn "$FORBIDDEN_BRANDS" .tarball-inspect ; then
+            echo "::error ::Forbidden brand reference in packed tarball"
+            exit 1
+          fi
+          rm -rf .tarball-inspect "$tarball"
+
+      - name: publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public --provenance
