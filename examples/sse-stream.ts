@@ -21,7 +21,7 @@ async function main(): Promise<void> {
       : Infinity;
 
   const apiUrl =
-    process.env.DEEPIDV_API_URL ?? "https://staging-api.deepidv.com";
+    process.env.DEEPIDV_API_URL ?? "https://staging-api.proof.deepidv.com";
   const client = createClient({ apiUrl });
 
   const ctrl = new AbortController();

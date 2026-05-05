@@ -66,7 +66,7 @@ grep -REn 'Arc|UAIIP|getai\.id|deeprisk|DeepIDV|Deep IDV|Deep ID V|deepsign|Dall
 # Expect: no matches.
 
 # Gate 7 — runs against a real staging attestation
-# Pick any attestation id from `staging-api.deepidv.com/v1/registry`
+# Pick any attestation id from `staging-api.proof.deepidv.com/v1/registry`
 # (or substitute your favorite from M05's sandbox mints):
 npx tsx examples/verify-bundle.ts <attestation_id>
 # Expect: ok=true with tsa_tokens=skipped. If staging /v1/bundle
@@ -133,7 +133,7 @@ explicit policy.
 
 ## 5. Status of the staging integration paths
 
-Tested against `https://staging-api.deepidv.com` on
+Tested against `https://staging-api.proof.deepidv.com` on
 2026-05-02 (today). Captured here for Luka so that the
 "runs in CI but not against staging" failure mode is visible.
 

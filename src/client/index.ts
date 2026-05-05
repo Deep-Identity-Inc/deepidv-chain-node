@@ -42,7 +42,7 @@ export type FetchLike = typeof fetch;
 export interface ClientOptions {
   /**
    * Base URL of the registry API. Default:
-   * `https://staging-api.deepidv.com`.
+   * `https://staging-api.proof.deepidv.com`.
    *
    * Production hosts the same surface at
    * `https://api.proof.deepidv.com`. Override at construction time.
@@ -66,7 +66,7 @@ export interface ClientOptions {
   timeoutMs?: number;
 }
 
-const DEFAULT_API_URL = "https://staging-api.deepidv.com";
+const DEFAULT_API_URL = "https://staging-api.proof.deepidv.com";
 const DEFAULT_TIMEOUT_MS = 15_000;
 const SDK_USER_AGENT = "deepidv-chain-node/1.0.0";
 

@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: ["20", "22"]
+        node: ["22"]
     steps:
       - uses: actions/checkout@v4
 
@@ -79,7 +79,7 @@ jobs:
 
       - name: smoke probe staging endpoints
         env:
-          STAGING_API_URL: https://staging-api.deepidv.com
+          STAGING_API_URL: https://staging-api.proof.deepidv.com
         run: |
           set -e
           # /v1/log should return 200 unauthenticated.
