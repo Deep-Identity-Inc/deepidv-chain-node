@@ -44,6 +44,7 @@ export type SigningAlg = "ECDSA_P256_SHA256";
  *
  * - `IDV` is the only record type emitted by the v1 mint Lambda.
  * - `BIO`, `DOC`, and `ADDR` are reserved for Phase 2 (per-capability
+ * - `WIT` is reserved for Phase 3 — Witness attestation (DIDV-481/483).
  *   event emission) and are included in the union as a forward-
  *   compatibility marker. Bundles tagged `BIO`, `DOC`, or `ADDR` will
  *   not appear in v1; do not author them client-side.
@@ -52,7 +53,7 @@ export type SigningAlg = "ECDSA_P256_SHA256";
  * them later is a semver-minor bump in the SDK, semver-major in the
  * envelope schema.
  */
-export type RecordType = "IDV" | "BIO" | "DOC" | "ADDR";
+export type RecordType = "IDV" | "BIO" | "DOC" | "ADDR" | "WIT"; // reserved Phase 3 — Witness attestation (DIDV-483)
 
 /**
  * Label commitment as it appears in the envelope.
