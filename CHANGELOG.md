@@ -4,6 +4,11 @@ All notable changes to `@deepidv/chain` are documented in this
 file. Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] — 2026-06-07
+
+### Added
+- `WIT` added to `RecordType` union as a reserved Phase 3 type (Witness attestation, DIDV-481/483). Semver-minor: existing consumers are unaffected.
+
 ## [1.0.0] — 2026-05-02
 
 Initial GA release of the Node.js / TypeScript SDK for the deepidv
