@@ -19,7 +19,7 @@
  * Or pull everything from the root export.
  */
 
-export const SDK_VERSION = "1.0.0";
+export const SDK_VERSION = "1.1.0";
 
 // Wire-format types.
 export type {

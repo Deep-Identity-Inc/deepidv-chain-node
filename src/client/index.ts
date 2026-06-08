@@ -68,7 +68,7 @@ export interface ClientOptions {
 
 const DEFAULT_API_URL = "https://staging-api.proof.deepidv.com";
 const DEFAULT_TIMEOUT_MS = 15_000;
-const SDK_USER_AGENT = "deepidv-chain-node/1.0.0";
+const SDK_USER_AGENT = "deepidv-chain-node/1.1.0";
 
 export interface RequestOptions {
   signal?: AbortSignal;
