@@ -48,12 +48,19 @@ export type SigningAlg = "ECDSA_P256_SHA256";
  *   compatibility marker. Bundles tagged `BIO`, `DOC`, or `ADDR` will
  *   not appear in v1; do not author them client-side.
  * - `WIT` is reserved for Phase 3 — Witness attestation (DIDV-481/483).
+ * - `AGT` is reserved for Phase 3 — Agent identity (DIDV-488/489).
  *
  * `RSK | AML | AGR | ACT` are deliberately NOT in this union. Adding
  * them later is a semver-minor bump in the SDK, semver-major in the
  * envelope schema.
  */
-export type RecordType = "IDV" | "BIO" | "DOC" | "ADDR" | "WIT"; // reserved Phase 3 — Witness attestation (DIDV-483)
+export type RecordType =
+  | "IDV" // v1 active
+  | "BIO" // reserved — Phase 2
+  | "DOC" // reserved — Phase 2
+  | "ADDR" // reserved — Phase 2
+  | "WIT" // reserved — Phase 3 (witness attestation, DIDV-483)
+  | "AGT"; // reserved — Phase 3 (agent identity, DIDV-489)
 
 /**
  * Label commitment as it appears in the envelope.
