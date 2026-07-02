@@ -55,12 +55,12 @@ export type SigningAlg = "ECDSA_P256_SHA256";
  * envelope schema.
  */
 export type RecordType =
-  | "IDV"   // v1 active
-  | "BIO"   // reserved — Phase 2
-  | "DOC"   // reserved — Phase 2
-  | "ADDR"  // reserved — Phase 2
-  | "WIT"   // reserved — Phase 3 (witness attestation, DIDV-483)
-  | "AGT";  // reserved — Phase 3 (agent identity, DIDV-489)
+  | "IDV" // v1 active
+  | "BIO" // reserved — Phase 2
+  | "DOC" // reserved — Phase 2
+  | "ADDR" // reserved — Phase 2
+  | "WIT" // reserved — Phase 3 (witness attestation, DIDV-483)
+  | "AGT"; // reserved — Phase 3 (agent identity, DIDV-489)
 
 /**
  * Label commitment as it appears in the envelope.
