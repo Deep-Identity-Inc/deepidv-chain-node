@@ -12,7 +12,6 @@ on:
 
 permissions:
   contents: read
-  id-token: write # required for npm provenance via OIDC
 
 concurrency:
   group: publish
@@ -82,4 +81,4 @@ jobs:
       - name: publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish --access public --provenance
+        run: npm publish --access public
