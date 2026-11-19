@@ -122,7 +122,11 @@ export interface SegmentDetail {
 
 export interface IssuerDetail {
   id: string;
-  status: "active" | "rotating" | "revoked";
+  /**
+   * `retired`: the organization moved to another issuer. Receipts this
+   * issuer signed stay valid; it signs no new ones.
+   */
+  status: "active" | "rotating" | "revoked" | "retired";
   publicKeyPem: string;
   rotations: Array<{
     at: string;
